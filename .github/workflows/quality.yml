@@ -1,0 +1,22 @@
+name: Code quality
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  quality:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        app: ["library-frontend"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+        working-directory: ${{ matrix.app }}
+      - run: npm run lint
+        working-directory: ${{ matrix.app }}
+      - run: npm run build --if-present
+        working-directory: ${{ matrix.app }}
