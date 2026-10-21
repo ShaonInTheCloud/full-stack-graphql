@@ -28,3 +28,7 @@ jobs:
       - name: Run tests
         working-directory: tests-chapter4
         run: npm test
+
+      - name: Check bounded author-count queries
+        working-directory: tests-chapter4
+        run: node --test ../extra-tests/counts.cjs

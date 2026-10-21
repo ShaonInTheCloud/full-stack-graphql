@@ -32,8 +32,8 @@ const counts = async () =>
   );
 const resolvers = {
   Query: {
-    bookCount: () => Book.countDocuments({}),
-    authorCount: () => Author.countDocuments({}),
+    bookCount: () => Book.countDocuments({}).exec(),
+    authorCount: () => Author.countDocuments({}).exec(),
     me: (_r, _a, c) => c?.currentUser || null,
     allBooks: async (_r, { author, genre }) => {
       const filter = {};
@@ -70,7 +70,8 @@ const resolvers = {
   },
   Book: {
     id: (b) => String(b.id || b._id),
-    author: (b) => (b.author?.name ? b.author : Author.findById(b.author)),
+    author: (b) =>
+      b.author?.name ? b.author : Author.findById(b.author).exec(),
   },
   User: { id: (u) => String(u.id || u._id) },
   Mutation: {
